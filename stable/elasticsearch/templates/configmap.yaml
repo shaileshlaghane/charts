@@ -50,14 +50,14 @@ data:
     xpack.ml.enabled: ${XPACK_ML_ENABLED:false}
   {{- end }}
     xpack.monitoring.enabled: ${XPACK_MONITORING_ENABLED:false}
-    xpack.security.enabled: ${XPACK_SECURITY_ENABLED:false}
+    xpack.security.enabled: ${XPACK_SECURITY_ENABLED:true}
     xpack.watcher.enabled: ${XPACK_WATCHER_ENABLED:false}
 {{- else }}
   {{- if or ( gt $minorAppVersion 5.4 ) ( eq $minorAppVersion 5.4 ) }}
     xpack.ml.enabled: false
   {{- end }}
     xpack.monitoring.enabled: false
-    xpack.security.enabled: false
+    xpack.security.enabled: true
     xpack.watcher.enabled: false
 {{- end }}
 {{- else if hasPrefix "6." .Values.appVersion }}
@@ -77,7 +77,7 @@ data:
     # see https://www.elastic.co/guide/en/x-pack/current/xpack-settings.html
     xpack.ml.enabled: ${XPACK_ML_ENABLED:false}
     xpack.monitoring.enabled: ${XPACK_MONITORING_ENABLED:false}
-    xpack.security.enabled: ${XPACK_SECURITY_ENABLED:false}
+    xpack.security.enabled: ${XPACK_SECURITY_ENABLED:true}
     xpack.watcher.enabled: ${XPACK_WATCHER_ENABLED:false}
 {{- end }}
 {{- end }}

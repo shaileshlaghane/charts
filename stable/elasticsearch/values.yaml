@@ -41,7 +41,8 @@ securityContext:
 # schedulerName: "default-scheduler"
 
 image:
-  repository: "docker.elastic.co/elasticsearch/elasticsearch-oss"
+##  repository: "docker.elastic.co/elasticsearch/elasticsearch-oss"
+  repository: "docker.elastic.co/elasticsearch/elasticsearch"
   tag: "6.8.2"
   pullPolicy: "IfNotPresent"
   # If specified, use these secrets to access the image
@@ -56,12 +57,15 @@ initImage:
   repository: "busybox"
   tag: "latest"
   pullPolicy: "Always"
+  
+# initContainer:
+#   chown -R 1000:1000 /usr/share/elasticsearch
 
 cluster:
   name: "elasticsearch"
   # If you want X-Pack installed, switch to an image that includes it, enable this option and toggle the features you want
   # enabled in the environment variables outlined in the README
-  xpackEnable: false
+  xpackEnable: true
   # Some settings must be placed in a keystore, so they need to be mounted in from a secret.
   # Use this setting to specify the name of the secret
   # keystoreSecret: eskeystore
@@ -109,7 +113,7 @@ cluster:
 
 client:
   name: client
-  replicas: 2
+  replicas: 1
   serviceType: ClusterIP
   ## If coupled with serviceType = "NodePort", this will set a specific nodePort to the client HTTP port
   # httpNodePort: 30920
@@ -171,11 +175,12 @@ client:
 master:
   name: master
   exposeHttp: false
-  replicas: 3
+  replicas: 2 ##previously 3
   heapSize: "512m"
   # additionalJavaOpts: "-XX:MaxRAM=512m"
   persistence:
-    enabled: true
+    ##enabled: true
+    enabled: false
     accessMode: ReadWriteOnce
     name: data
     size: "4Gi"
@@ -225,11 +230,12 @@ master:
 data:
   name: data
   exposeHttp: false
-  replicas: 2
+  replicas: 1 ##2
   heapSize: "1536m"
   # additionalJavaOpts: "-XX:MaxRAM=1536m"
   persistence:
-    enabled: true
+    ##enabled: true
+    enabled: false
     accessMode: ReadWriteOnce
     name: data
     size: "30Gi"
